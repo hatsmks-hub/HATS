@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MSK Hats</title>
-<meta name="description" content="MSK Hats: Las 3B ggs.">
+<meta name="description" content="MSK Hats: gorras de edición limitada.">
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,36 +13,38 @@
 <style>
 :root{--bg:#000;--text:#fff;--muted:#a6a8ae;--line:#222}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--text);font-family:Archivo,Arial Black,Arial,sans-serif;font-weight:800;line-height:1.3;padding-bottom:env(safe-area-inset-bottom)}
+body{background:#000;color:var(--text);font-family:Archivo,Arial Black,Arial,sans-serif;font-weight:800;line-height:1.3;padding-bottom:env(safe-area-inset-bottom)}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:3px solid #fff;outline-offset:2px}
-header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top));background:#000;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:#000 url(assets/fondo.jpg) center/cover no-repeat}
+header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top));background:rgba(0,0,0,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 header img{height:44px;display:block}
 .cartbtn{background:none;border:0;font-size:15px;font-weight:900;padding:10px 0 10px 10px}
 .hero{position:relative;height:78svh;min-height:420px;overflow:hidden}
 .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 40%,#000)}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(0,0,0,.85))}
 .hero div{position:absolute;left:16px;right:16px;bottom:24px;z-index:2}
 .hero h1{font-size:clamp(38px,12vw,84px);font-weight:900;line-height:.95;text-transform:uppercase;letter-spacing:-.02em}
 .btn{display:block;width:100%;text-align:center;background:#fff;color:#000;border:0;border-radius:6px;padding:15px;font-weight:900;font-size:16px;text-transform:uppercase}
 .hero .btn{display:inline-block;width:auto;padding:14px 28px;margin-top:16px}
 section{padding:40px 16px}
 h2{font-size:28px;font-weight:900;text-transform:uppercase;margin-bottom:20px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 10px}
-.card{background:none;border:0;text-align:left;padding:0;display:block;width:100%}
-.ph{aspect-ratio:1;background:linear-gradient(#e9eaed,#bfc2c9);border-radius:6px;display:flex;align-items:center;justify-content:center;padding:12%}
-.ph img{max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 8px 8px rgba(0,0,0,.35))}
-.card h3{margin-top:10px;font-size:15px;font-weight:900;text-transform:uppercase}
-.card p{color:var(--muted);font-size:14px;font-weight:700}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 6px}
+.card{background:none;border:0;text-align:center;padding:0;display:block;width:100%}
+.ph{position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center;padding:6%}
+.ph:before{content:"";position:absolute;inset:0;background:radial-gradient(closest-side,rgba(255,255,255,.14),transparent 90%)}
+.ph img{position:relative;max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 10px 10px rgba(0,0,0,.6))}
+.card h3{margin-top:4px;font-size:15px;font-weight:900;text-transform:uppercase}
+.card p{color:#d6d8dd;font-size:14px;font-weight:700}
 .video2{width:100%;aspect-ratio:352/640;max-height:80svh;object-fit:cover;border-radius:6px;display:block}
 .gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .gallery img{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:6px;display:block}
-footer{border-top:1px solid var(--line);padding:28px 16px 40px;color:var(--muted);font-size:14px;font-weight:700;display:grid;gap:10px;justify-items:center;text-align:center}
+footer{background:rgba(0,0,0,.7);border-top:1px solid var(--line);padding:28px 16px 40px;color:var(--muted);font-size:14px;font-weight:700;display:grid;gap:10px;justify-items:center;text-align:center}
 footer img{height:56px}
 .sheet{position:fixed;inset:0;z-index:20;display:none;background:rgba(0,0,0,.7)}
 .sheet.on{display:flex;align-items:flex-end}
-.panel{background:#0c0c0d;width:100%;max-height:92svh;overflow:auto;border-radius:16px 16px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom))}
+.panel{background:rgba(8,8,9,.94);width:100%;max-height:92svh;overflow:auto;border-radius:16px 16px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom))}
 .x{float:right;background:none;border:0;font-size:30px;line-height:1;padding:0 6px 8px}
 .panel .ph{margin:8px 0 14px;clear:both}
 .panel h3{font-size:24px;font-weight:900;text-transform:uppercase}
@@ -122,27 +124,4 @@ function render(){
   }).join("");
   $("n").textContent = cart.length;
 }
-function open(html){$("panel").innerHTML = '<button class="x" aria-label="Cerrar" id="close">×</button>' + html; $("sheet").classList.add("on"); $("close").onclick = shut}
-function shut(){$("sheet").classList.remove("on")}
-function producto(i){
-  var g = GORRAS[i];
-  open('<div class="ph"><img src="'+g.img+'" alt="Gorra '+g.n+'"></div><h3>'+g.n+'</h3><p class="pr">'+precio(g.p)+'</p><button class="btn" id="add">Agregar al carrito</button><button class="btn ghost" id="buy">Pedir por WhatsApp</button>');
-  $("add").onclick = function(){cart.push(i); render(); shut()};
-  $("buy").onclick = function(){wa("Hola, quiero la gorra " + g.n)};
-}
-function carrito(){
-  if(!cart.length){open('<h3>Tu carrito</h3><p class="pr">Está vacío.</p>'); return}
-  var total = 0;
-  var filas = cart.map(function(i,k){total += GORRAS[i].p; return '<div class="row"><span>'+GORRAS[i].n+'</span><button data-k="'+k+'">Quitar</button></div>'}).join("");
-  open('<h3>Tu carrito</h3><p class="pr">'+cart.length+' gorra(s)'+(total?' · $'+total+' '+MONEDA:'')+'</p>'+filas+'<button class="btn" id="order" style="margin-top:18px">Pedir por WhatsApp</button>');
-  $("order").onclick = function(){wa("Hola, quiero pedir:\n" + cart.map(function(i){return "- " + GORRAS[i].n}).join("\n"))};
-  $("panel").querySelectorAll("[data-k]").forEach(function(b){b.onclick = function(){cart.splice(+b.dataset.k,1); render(); carrito()}});
-}
-$("grid").addEventListener("click", function(e){var c = e.target.closest(".card"); if(c) producto(+c.dataset.i)});
-$("cartOpen").onclick = carrito;
-$("sheet").addEventListener("click", function(e){if(e.target === $("sheet")) shut()});
-document.addEventListener("keydown", function(e){if(e.key === "Escape") shut()});
-render();
-</script>
-</body>
-</html>
+function open(html){$("panel").innerHTML = '<button class="x" aria-label="Cerrar" id="close">×</button>' + html; $("sheet").classList.add("on"); $("close").onclick =
