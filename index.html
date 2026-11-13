@@ -18,4 +18,109 @@ a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--silver);outline-offset:3px}
 header{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:10px 5vw;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 header img{height:46px;display:block}
-nav{display:flex;gap:28px;font-size:15px;color:var(--mute
+nav{display:flex;gap:28px;font-size:15px;color:var(--muted)}
+nav a:hover{color:var(--text)}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:5vw;align-items:center;padding:6vh 5vw;min-height:84vh}
+.hero h1{font-style:italic;font-weight:900;font-size:clamp(44px,7.5vw,104px);line-height:.95;letter-spacing:-.02em}
+.hero p{max-width:40ch;margin:22px 0 32px;color:var(--muted);font-size:18px}
+.btn{display:inline-block;padding:14px 28px;border:1px solid var(--silver);border-radius:999px;font-weight:600;transition:background .2s,color .2s}
+.btn:hover{background:var(--silver);color:#000}
+.reels{display:flex;gap:14px;justify-content:center}
+.reels video{width:calc(50% - 7px);max-width:260px;aspect-ratio:352/640;object-fit:cover;border-radius:18px;background:var(--panel)}
+.reels video:nth-child(2){margin-top:44px}
+section{padding:9vh 5vw}
+h2{font-size:clamp(28px,4vw,44px);font-style:italic;font-weight:800;margin-bottom:36px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:26px}
+.card{display:flex;flex-direction:column}
+.card .ph{aspect-ratio:4/5;overflow:hidden;border-radius:14px;background:var(--panel)}
+.card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.card:hover img{transform:scale(1.04)}
+.card h3{margin-top:14px;font-size:18px;font-weight:600}
+.card .price{color:var(--muted);margin-bottom:12px}
+.card .btn{margin-top:auto;text-align:center;padding:11px 18px;font-size:15px}
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 5vw 9vh}
+.gallery img{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:12px;display:block}
+.about{max-width:60ch;margin:0 auto;text-align:center;color:var(--muted);font-size:18px}
+.about h2{color:var(--text)}
+footer{border-top:1px solid var(--line);padding:36px 5vw;display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;align-items:center;color:var(--muted);font-size:14px}
+footer img{height:38px}
+@media(max-width:800px){
+ nav{gap:16px;font-size:14px}
+ .hero{grid-template-columns:1fr;min-height:0}
+ .reels video:nth-child(2){display:none}
+ .reels video{width:60%;max-width:none}
+ .gallery{grid-template-columns:repeat(2,1fr)}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#inicio"><img src="assets/logo.png" alt="MSK Hats"></a>
+  <nav>
+    <a href="#coleccion">Colección</a>
+    <a href="#nosotros">Nosotros</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+</header>
+
+<main id="inicio">
+  <div class="hero">
+    <div>
+      <h1>Gorras de edición limitada</h1>
+      <p>Diseños con cruces, estrellas y bordados únicos. Pocas piezas por modelo.</p>
+      <a class="btn" href="#coleccion">Ver colección</a>
+    </div>
+    <div class="reels">
+      <video src="assets/IMG_6859.mp4" autoplay muted loop playsinline preload="metadata" poster="assets/foto-1.jpg"></video>
+      <video src="assets/IMG_6856.mp4" autoplay muted loop playsinline preload="metadata" poster="assets/foto-2.jpg"></video>
+    </div>
+  </div>
+
+  <!-- EDITA AQUÍ: cambia nombre, precio y foto de cada gorra -->
+  <section id="coleccion">
+    <h2>La colección</h2>
+    <div class="grid">
+      <article class="card"><div class="ph"><img src="assets/camo-ldm.jpg" alt="Gorra camuflaje gris con letras LDM" loading="lazy"></div><h3>Camo LDM</h3><p class="price">$000 MXN</p><a class="btn wa" data-p="Camo LDM" href="#contacto">Pedir por WhatsApp</a></article>
+      <article class="card"><div class="ph"><img src="assets/cruces-trucker.jpg" alt="Gorra trucker negra de piel con cruces" loading="lazy"></div><h3>Cruces Trucker</h3><p class="price">$000 MXN</p><a class="btn wa" data-p="Cruces Trucker" href="#contacto">Pedir por WhatsApp</a></article>
+      <article class="card"><div class="ph"><img src="assets/estrellas-m.jpg" alt="Gorra negra con círculo de estrellas y letra M" loading="lazy"></div><h3>Estrellas M</h3><p class="price">$000 MXN</p><a class="btn wa" data-p="Estrellas M" href="#contacto">Pedir por WhatsApp</a></article>
+      <article class="card"><div class="ph"><img src="assets/cruces-chrome.jpg" alt="Gorra negra de piel con cruz plateada" loading="lazy"></div><h3>Cruz Plata</h3><p class="price">$000 MXN</p><a class="btn wa" data-p="Cruz Plata" href="#contacto">Pedir por WhatsApp</a></article>
+      <article class="card"><div class="ph"><img src="assets/caballo-suede.jpg" alt="Gorra negra de gamuza con caballo y logo plateado" loading="lazy"></div><h3>Caballo Suede</h3><p class="price">$000 MXN</p><a class="btn wa" data-p="Caballo Suede" href="#contacto">Pedir por WhatsApp</a></article>
+      <article class="card"><div class="ph"><img src="assets/estrellas-m-negra.jpg" alt="Gorra negra con estrellas plateadas" loading="lazy"></div><h3>Estrellas Negra</h3><p class="price">$000 MXN</p><a class="btn wa" data-p="Estrellas Negra" href="#contacto">Pedir por WhatsApp</a></article>
+    </div>
+  </section>
+
+  <div class="gallery">
+    <img src="assets/foto-1.jpg" alt="Gorras MSK Hats sobre alfombra" loading="lazy">
+    <img src="assets/foto-2.jpg" alt="Gorras negras con estrellas y cruces" loading="lazy">
+    <img src="assets/foto-3.jpg" alt="Gorras MSK Hats sobre fondo blanco" loading="lazy">
+    <img src="assets/foto-4.jpg" alt="Gorras con cruces y estrellas" loading="lazy">
+  </div>
+
+  <section id="nosotros">
+    <div class="about">
+      <h2>MSK Hats</h2>
+      <p>Hacemos gorras en cantidades limitadas para que cada modelo sea distinto. Escríbenos por WhatsApp para pedir la tuya o preguntar por tallas y envíos.</p>
+    </div>
+  </section>
+</main>
+
+<footer id="contacto">
+  <img src="assets/logo.png" alt="MSK Hats">
+  <span>Pedidos y dudas: <a class="wa" data-p="" href="#contacto" style="text-decoration:underline">escríbenos por WhatsApp</a></span>
+  <span>© 2026 MSK Hats</span>
+</footer>
+
+<script>
+// EDITA AQUÍ: tu número de WhatsApp con código de país, sin + ni espacios (ej. 5215512345678)
+var NUMERO = "0000000000000";
+document.querySelectorAll("a.wa").forEach(function(a){
+  var p = a.dataset.p;
+  var msg = p ? "Hola, quiero la gorra " + p : "Hola, quiero información de las gorras";
+  a.href = "https://wa.me/" + NUMERO + "?text=" + encodeURIComponent(msg);
+  a.target = "_blank"; a.rel = "noopener";
+});
+</script>
+</body>
+</html>
