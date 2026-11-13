@@ -124,4 +124,27 @@ function render(){
   }).join("");
   $("n").textContent = cart.length;
 }
-function open(html){$("panel").innerHTML = '<button class="x" aria-label="Cerrar" id="close">×</button>' + html; $("sheet").classList.add("on"); $("close").onclick =
+function open(html){$("panel").innerHTML = '<button class="x" aria-label="Cerrar" id="close">×</button>' + html; $("sheet").classList.add("on"); $("close").onclick = shut}
+function shut(){$("sheet").classList.remove("on")}
+function producto(i){
+  var g = GORRAS[i];
+  open('<div class="ph"><img src="'+g.img+'" alt="Gorra '+g.n+'"></div><h3>'+g.n+'</h3><p class="pr">'+precio(g.p)+'</p><button class="btn" id="add">Agregar al carrito</button><button class="btn ghost" id="buy">Pedir por WhatsApp</button>');
+  $("add").onclick = function(){cart.push(i); render(); shut()};
+  $("buy").onclick = function(){wa("Hola, quiero la gorra " + g.n)};
+}
+function carrito(){
+  if(!cart.length){open('<h3>Tu carrito</h3><p class="pr">Está vacío.</p>'); return}
+  var total = 0;
+  var filas = cart.map(function(i,k){total += GORRAS[i].p; return '<div class="row"><span>'+GORRAS[i].n+'</span><button data-k="'+k+'">Quitar</button></div>'}).join("");
+  open('<h3>Tu carrito</h3><p class="pr">'+cart.length+' gorra(s)'+(total?' · $'+total+' '+MONEDA:'')+'</p>'+filas+'<button class="btn" id="order" style="margin-top:18px">Pedir por WhatsApp</button>');
+  $("order").onclick = function(){wa("Hola, quiero pedir:\n" + cart.map(function(i){return "- " + GORRAS[i].n}).join("\n"))};
+  $("panel").querySelectorAll("[data-k]").forEach(function(b){b.onclick = function(){cart.splice(+b.dataset.k,1); render(); carrito()}});
+}
+$("grid").addEventListener("click", function(e){var c = e.target.closest(".card"); if(c) producto(+c.dataset.i)});
+$("cartOpen").onclick = carrito;
+$("sheet").addEventListener("click", function(e){if(e.target === $("sheet")) shut()});
+document.addEventListener("keydown", function(e){if(e.key === "Escape") shut()});
+render();
+</script>
+</body>
+</html>
