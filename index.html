@@ -11,8 +11,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#000;--text:#fff;--muted:#a6a8ae;--line:#222}
+:root{--text:#fff;--muted:#a6a8ae;--line:#222}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
 body{background:#000;color:var(--text);font-family:Archivo,Arial Black,Arial,sans-serif;font-weight:800;line-height:1.3;padding-bottom:env(safe-area-inset-bottom)}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;cursor:pointer}
@@ -21,14 +22,13 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;background:#000 url(as
 header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top));background:rgba(0,0,0,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 header img{height:44px;display:block}
 .cartbtn{background:none;border:0;font-size:15px;font-weight:900;padding:10px 0 10px 10px}
-.hero{position:relative;height:78svh;min-height:420px;overflow:hidden}
-.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(0,0,0,.85))}
-.hero div{position:absolute;left:16px;right:16px;bottom:24px;z-index:2}
-.hero h1{font-size:clamp(38px,12vw,84px);font-weight:900;line-height:.95;text-transform:uppercase;letter-spacing:-.02em}
+.hero{min-height:calc(100svh - 64px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px 16px 36px;text-align:center}
+.hero img{width:min(90vw,540px);height:auto;display:block}
+.hero h1{font-size:clamp(30px,9vw,64px);font-weight:900;line-height:1;text-transform:uppercase;letter-spacing:-.01em}
+.hero p{color:#d6d8dd;font-size:17px;font-weight:700}
 .btn{display:block;width:100%;text-align:center;background:#fff;color:#000;border:0;border-radius:6px;padding:15px;font-weight:900;font-size:16px;text-transform:uppercase}
-.hero .btn{display:inline-block;width:auto;padding:14px 28px;margin-top:16px}
-section{padding:40px 16px}
+.hero .btn{width:auto;padding:14px 32px;margin-top:10px}
+section{padding:40px 16px;scroll-margin-top:60px}
 h2{font-size:28px;font-weight:900;text-transform:uppercase;margin-bottom:20px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 6px}
 .card{background:none;border:0;text-align:center;padding:0;display:block;width:100%}
@@ -37,23 +37,28 @@ h2{font-size:28px;font-weight:900;text-transform:uppercase;margin-bottom:20px}
 .ph img{position:relative;max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 10px 10px rgba(0,0,0,.6))}
 .card h3{margin-top:4px;font-size:15px;font-weight:900;text-transform:uppercase}
 .card p{color:#d6d8dd;font-size:14px;font-weight:700}
-.video2{width:100%;aspect-ratio:352/640;max-height:80svh;object-fit:cover;border-radius:6px;display:block}
+.vids{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.vids video{width:100%;aspect-ratio:352/640;object-fit:contain;background:rgba(0,0,0,.6);border-radius:6px;display:block}
 .gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .gallery img{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:6px;display:block}
 footer{background:rgba(0,0,0,.7);border-top:1px solid var(--line);padding:28px 16px 40px;color:var(--muted);font-size:14px;font-weight:700;display:grid;gap:10px;justify-items:center;text-align:center}
 footer img{height:56px}
 .sheet{position:fixed;inset:0;z-index:20;display:none;background:rgba(0,0,0,.7)}
 .sheet.on{display:flex;align-items:flex-end}
-.panel{background:rgba(8,8,9,.94);width:100%;max-height:92svh;overflow:auto;border-radius:16px 16px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom))}
+.panel{background:rgba(8,8,9,.96);width:100%;max-height:94svh;overflow:auto;border-radius:16px 16px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom))}
 .x{float:right;background:none;border:0;font-size:30px;line-height:1;padding:0 6px 8px}
-.panel .ph{margin:8px 0 14px;clear:both}
+.gal{clear:both;display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:6px -16px 8px;padding:0 16px;scrollbar-width:none}
+.gal::-webkit-scrollbar{display:none}
+.slide{flex:0 0 84%;scroll-snap-align:center;aspect-ratio:4/5;border-radius:8px;overflow:hidden;position:relative;background:rgba(255,255,255,.05)}
+.slide img{width:100%;height:100%;object-fit:cover;display:block}
+.slide.cut img{object-fit:contain;padding:8%;filter:drop-shadow(0 10px 10px rgba(0,0,0,.6))}
+.hint{color:var(--muted);font-size:13px;margin-bottom:12px}
 .panel h3{font-size:24px;font-weight:900;text-transform:uppercase}
 .panel .pr{color:var(--muted);margin:2px 0 16px}
 .row{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px;text-transform:uppercase}
 .row button{background:none;border:0;color:var(--muted);font-weight:900}
 .ghost{background:none;color:#fff;border:2px solid #fff;margin-top:10px}
-@media(min-width:760px){.grid{grid-template-columns:repeat(3,1fr);gap:24px 18px}.gallery{grid-template-columns:repeat(4,1fr)}section,header,footer{padding-left:5vw;padding-right:5vw}.hero div{left:5vw}.panel{max-width:460px;margin:0 auto}}
-@media(prefers-reduced-motion:reduce){.hero video{display:none}.hero{background:url(assets/foto-1.jpg) center/cover}}
+@media(min-width:760px){.grid{grid-template-columns:repeat(3,1fr);gap:24px 18px}.gallery{grid-template-columns:repeat(4,1fr)}section,header,footer{padding-left:5vw;padding-right:5vw}.panel{max-width:460px;margin:0 auto}.vids{max-width:560px}}
 </style>
 </head>
 <body>
@@ -65,21 +70,23 @@ footer img{height:56px}
 
 <main>
   <div class="hero">
-    <video src="assets/IMG_6859.mp4" autoplay muted loop playsinline preload="metadata" poster="assets/foto-1.jpg"></video>
-    <div>
-      <h1>Edición<br>limitada</h1>
-      <a class="btn" href="#coleccion">Ver colección</a>
-    </div>
+    <img src="assets/logo-brillo.svg" alt="MSK Hats">
+    <h1>Trabajamos con las 3B</h1>
+    <p>Bueno, bonito y barato</p>
+    <a class="btn" href="#coleccion">Ver colección</a>
   </div>
 
-  <!-- EDITA AQUÍ: nombre y precio de cada gorra -->
   <section id="coleccion">
     <h2>La colección</h2>
     <div class="grid" id="grid"></div>
   </section>
 
   <section>
-    <video class="video2" src="assets/IMG_6856.mp4" autoplay muted loop playsinline preload="metadata" poster="assets/foto-2.jpg"></video>
+    <h2>En video</h2>
+    <div class="vids">
+      <video src="assets/IMG_6859.mp4" autoplay muted loop playsinline preload="metadata" poster="assets/foto-1.jpg"></video>
+      <video src="assets/IMG_6856.mp4" autoplay muted loop playsinline preload="metadata" poster="assets/foto-2.jpg"></video>
+    </div>
   </section>
 
   <section>
@@ -104,15 +111,14 @@ footer img{height:56px}
 <script>
 // EDITA AQUÍ: tu número de WhatsApp con código de país, sin + ni espacios (ej. 5215512345678)
 var NUMERO = "0000000000000";
-// EDITA AQUÍ: nombre, precio (número) y foto de cada gorra
 var MONEDA = "MXN";
+// EDITA AQUÍ: nombre (n), precio (p), foto principal (img) y fotos extra (fotos) de cada gorra
 var GORRAS = [
-  {n:"Camo LDM",        p:0, img:"assets/gorra-1.png"},
-  {n:"Cruces Trucker",  p:0, img:"assets/gorra-2.png"},
-  {n:"Estrellas M",     p:0, img:"assets/gorra-3.png"},
-  {n:"Cruz Plata",      p:0, img:"assets/gorra-4.png"},
-  {n:"Caballo Suede",   p:0, img:"assets/gorra-5.png"},
-  {n:"Estrellas Negra", p:0, img:"assets/gorra-6.png"}
+  {n:"Gamina W x Kris R", p:0, img:"assets/gorra-1.png", fotos:["assets/camo-estudio-2.jpg","assets/camo-estudio-3.jpg","assets/camo-v1.jpg","assets/camo-v2.jpg"]},
+  {n:"Cruces Trucker",    p:0, img:"assets/gorra-2.png", fotos:["assets/cruces-1.jpg"]},
+  {n:"Estrellas W",       p:0, img:"assets/gorra-3.png", fotos:["assets/gorra-6.png","assets/estrellas-1.jpg","assets/estrellas-2.jpg"]},
+  {n:"Cruz Plata",        p:0, img:"assets/gorra-4.png", fotos:["assets/cruz-1.jpg","assets/cruz-2.jpg"]},
+  {n:"Yeison Jiménez",    p:0, img:"assets/gorra-5.png", fotos:["assets/yeison-1.jpg","assets/yeison-2.jpg","assets/yeison-3.jpg"]}
 ];
 var cart = [];
 var $ = function(id){return document.getElementById(id)};
@@ -127,8 +133,12 @@ function render(){
 function open(html){$("panel").innerHTML = '<button class="x" aria-label="Cerrar" id="close">×</button>' + html; $("sheet").classList.add("on"); $("close").onclick = shut}
 function shut(){$("sheet").classList.remove("on")}
 function producto(i){
-  var g = GORRAS[i];
-  open('<div class="ph"><img src="'+g.img+'" alt="Gorra '+g.n+'"></div><h3>'+g.n+'</h3><p class="pr">'+precio(g.p)+'</p><button class="btn" id="add">Agregar al carrito</button><button class="btn ghost" id="buy">Pedir por WhatsApp</button>');
+  var g = GORRAS[i], todas = [g.img].concat(g.fotos || []);
+  var slides = todas.map(function(f,k){
+    var corte = /\.png$/.test(f);
+    return '<div class="slide'+(corte?' cut':'')+'"><img src="'+f+'" alt="Gorra '+g.n+' foto '+(k+1)+'"></div>';
+  }).join("");
+  open('<div class="gal">'+slides+'</div>'+(todas.length>1?'<p class="hint">Desliza para ver más fotos ('+todas.length+')</p>':'')+'<h3>'+g.n+'</h3><p class="pr">'+precio(g.p)+'</p><button class="btn" id="add">Agregar al carrito</button><button class="btn ghost" id="buy">Pedir por WhatsApp</button>');
   $("add").onclick = function(){cart.push(i); render(); shut()};
   $("buy").onclick = function(){wa("Hola, quiero la gorra " + g.n)};
 }
