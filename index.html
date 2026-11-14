@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<!-- // CONFIGURACION DE LA PAGINA // -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MSK Hats</title>
-<meta name="description" content="MSK Hats: gorras de edición limitada.">
+<meta name="description" content="MSK Hats: gorras buenas, bonitas y baratas. Pedidos por correo.">
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&display=swap" rel="stylesheet">
+
 <style>
-:root{--text:#fff;--muted:#a6a8ae;--line:#222}
+/* // ESTILOS BASE // */
+:root{--text:#fff;--muted:#a6a8ae;--line:#222;--neon:#fff}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{background:#000;color:var(--text);font-family:Archivo,Arial Black,Arial,sans-serif;font-weight:800;line-height:1.3;padding-bottom:env(safe-area-inset-bottom)}
@@ -19,15 +22,21 @@ a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:3px solid #fff;outline-offset:2px}
 body::before{content:"";position:fixed;inset:0;z-index:-1;background:#000 url(assets/fondo.jpg) center/cover no-repeat}
+
+/* // ESTILOS ENCABEZADO // */
 header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top));background:rgba(0,0,0,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 header img{height:44px;display:block}
 .cartbtn{background:none;border:0;font-size:15px;font-weight:900;padding:10px 0 10px 10px}
+
+/* // ESTILOS PORTADA (HERO) // */
 .hero{min-height:calc(100svh - 64px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px 16px 36px;text-align:center}
 .hero img{width:min(90vw,540px);height:auto;display:block}
 .hero h1{font-size:clamp(30px,9vw,64px);font-weight:900;line-height:1;text-transform:uppercase;letter-spacing:-.01em}
-.hero p{color:#d6d8dd;font-size:17px;font-weight:700}
+.hero p{font-size:20px;font-weight:900}
 .btn{display:block;width:100%;text-align:center;background:#fff;color:#000;border:0;border-radius:6px;padding:15px;font-weight:900;font-size:16px;text-transform:uppercase}
 .hero .btn{width:auto;padding:14px 32px;margin-top:10px}
+
+/* // ESTILOS COLECCION // */
 section{padding:40px 16px;scroll-margin-top:60px}
 h2{font-size:28px;font-weight:900;text-transform:uppercase;margin-bottom:20px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 6px}
@@ -37,12 +46,31 @@ h2{font-size:28px;font-weight:900;text-transform:uppercase;margin-bottom:20px}
 .ph img{position:relative;max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 10px 10px rgba(0,0,0,.6))}
 .card h3{margin-top:4px;font-size:15px;font-weight:900;text-transform:uppercase}
 .card p{color:#d6d8dd;font-size:14px;font-weight:700}
+
+/* // ESTILOS VIDEOS Y FOTOS // */
 .vids{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .vids video{width:100%;aspect-ratio:352/640;object-fit:contain;background:rgba(0,0,0,.6);border-radius:6px;display:block}
 .gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .gallery img{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:6px;display:block}
+
+/* // ESTILOS PIE DE PAGINA // */
 footer{background:rgba(0,0,0,.7);border-top:1px solid var(--line);padding:28px 16px 40px;color:var(--muted);font-size:14px;font-weight:700;display:grid;gap:10px;justify-items:center;text-align:center}
 footer img{height:56px}
+
+/* // ESTILOS NEON PARA TODOS LOS SUBTITULOS // */
+h2,.hero p,.panel h3,.sub{color:#000;-webkit-text-stroke:1.5px var(--neon);paint-order:stroke fill;text-shadow:0 0 6px var(--neon),0 0 16px var(--neon)}
+.card h3{color:#000;-webkit-text-stroke:.7px var(--neon);paint-order:stroke fill;text-shadow:0 0 5px var(--neon)}
+.sub{font-size:20px;font-weight:900;text-transform:uppercase;margin:14px 0 6px}
+.delivery{text-align:center;padding-top:8px;padding-bottom:8px}
+.delivery h2{margin-bottom:6px}
+.delivery p{color:#d6d8dd;font-size:15px;font-weight:700}
+
+/* // ESTILOS OFERTA // */
+.promo{margin:0 16px;padding:14px 16px;border:2px solid #fff;border-radius:8px;text-align:center;text-transform:uppercase;font-weight:900;font-size:15px;line-height:1.4;background:rgba(0,0,0,.6)}
+.promo span{display:block;color:var(--muted);font-size:13px;text-transform:none;font-weight:700}
+.ok{color:#7CFC9A}
+
+/* // ESTILOS VENTANA (PRODUCTO Y CARRITO) // */
 .sheet{position:fixed;inset:0;z-index:20;display:none;background:rgba(0,0,0,.7)}
 .sheet.on{display:flex;align-items:flex-end}
 .panel{background:rgba(8,8,9,.96);width:100%;max-height:94svh;overflow:auto;border-radius:16px 16px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom))}
@@ -58,17 +86,22 @@ footer img{height:56px}
 .row{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px;text-transform:uppercase}
 .row button{background:none;border:0;color:var(--muted);font-weight:900}
 .ghost{background:none;color:#fff;border:2px solid #fff;margin-top:10px}
+.pago{display:block;text-transform:none;line-height:1.6;margin-top:10px}
+
+/* // ESTILOS PANTALLAS GRANDES // */
 @media(min-width:760px){.grid{grid-template-columns:repeat(3,1fr);gap:24px 18px}.gallery{grid-template-columns:repeat(4,1fr)}section,header,footer{padding-left:5vw;padding-right:5vw}.panel{max-width:460px;margin:0 auto}.vids{max-width:560px}}
 </style>
 </head>
 <body>
 
+<!-- // ENCABEZADO // -->
 <header>
   <a href="#"><img src="assets/logo.png" alt="MSK Hats"></a>
   <button class="cartbtn" id="cartOpen">Carrito (<span id="n">0</span>)</button>
 </header>
 
 <main>
+  <!-- // PORTADA (HERO) // -->
   <div class="hero">
     <img src="assets/logo-brillo.svg" alt="MSK Hats">
     <h1>Trabajamos con las 3B</h1>
@@ -76,11 +109,22 @@ footer img{height:56px}
     <a class="btn" href="#coleccion">Ver colección</a>
   </div>
 
+  <!-- // BANNER DE OFERTA // -->
+  <div class="promo" id="promo"></div>
+
+  <!-- // DELIVERY (SUBTITULO) // -->
+  <section class="delivery">
+    <h2>Delivery gratis</h2>
+    <p>Desde 1 gorra</p>
+  </section>
+
+  <!-- // COLECCION DE GORRAS // -->
   <section id="coleccion">
     <h2>La colección</h2>
     <div class="grid" id="grid"></div>
   </section>
 
+  <!-- // VIDEOS // -->
   <section>
     <h2>En video</h2>
     <div class="vids">
@@ -89,6 +133,7 @@ footer img{height:56px}
     </div>
   </section>
 
+  <!-- // FOTOS // -->
   <section>
     <h2>En fotos</h2>
     <div class="gallery">
@@ -100,60 +145,157 @@ footer img{height:56px}
   </section>
 </main>
 
+<!-- // PIE DE PAGINA // -->
 <footer>
   <img src="assets/logo.png" alt="MSK Hats">
-  <span>Pedidos por WhatsApp</span>
+  <span>Pedidos por correo</span>
   <span>© 2026 MSK Hats</span>
 </footer>
 
+<!-- // VENTANA EMERGENTE (PRODUCTO Y CARRITO) // -->
 <div class="sheet" id="sheet"><div class="panel" id="panel"></div></div>
 
 <script>
-// EDITA AQUÍ: tu número de WhatsApp con código de país, sin + ni espacios (ej. 5215512345678)
-var NUMERO = "0000000000000";
-var MONEDA = "MXN";
-// EDITA AQUÍ: nombre (n), precio (p), foto principal (img) y fotos extra (fotos) de cada gorra
+// // CONFIGURACION GENERAL // 
+// EDITA AQUÍ: moneda, correo, tasa y datos de pago
+var MONEDA = "USD";
+var CORREO = "hatsmks@gmail.com";
+var TASA = 1100; // Bs por cada dólar
+var PAGO = {tel:"04241772275", ced:"18094388", banco:"BNC"};
+
+// // CONFIGURACION DE OFERTA Y DELIVERY // 
+// Por cada 2 gorras se rebajan 2200 Bs (equivale a 2200 / TASA dólares). Delivery gratis desde 1 gorra.
+var OFERTA = {cantidad:2, descuentoBs:2200};
+var DELIVERY_GRATIS_DESDE = 1;
+
+// // LISTA DE GORRAS // 
+// n = nombre, p = precio en dólares, img = foto de portada (gorra de frente, visera al frente), fotos = fotos extra
 var GORRAS = [
-  {n:"Gamina W x Kris R", p:0, img:"assets/gorra-1.png", fotos:["assets/camo-estudio-2.jpg","assets/camo-estudio-3.jpg","assets/camo-v1.jpg","assets/camo-v2.jpg"]},
-  {n:"Cruces Trucker",    p:0, img:"assets/gorra-2.png", fotos:["assets/cruces-1.jpg"]},
-  {n:"Estrellas W",       p:0, img:"assets/gorra-3.png", fotos:["assets/gorra-6.png","assets/estrellas-1.jpg","assets/estrellas-2.jpg"]},
-  {n:"Cruz Plata",        p:0, img:"assets/gorra-4.png", fotos:["assets/cruz-1.jpg","assets/cruz-2.jpg"]},
-  {n:"Yeison Jiménez",    p:0, img:"assets/gorra-5.png", fotos:["assets/yeison-1.jpg","assets/yeison-2.jpg","assets/yeison-3.jpg"]}
+  {n:"Gamina W x Kris R", p:25, img:"assets/gorra-1.png", fotos:["assets/modelo-camo.jpg","assets/camo-estudio-2.jpg","assets/camo-estudio-3.jpg","assets/camo-v1.jpg","assets/camo-v2.jpg"]},
+  {n:"Cruces Trucker",    p:25, img:"assets/gorra-2.png", fotos:["assets/modelo-cruces.jpg","assets/cruces-1.jpg"]},
+  {n:"Estrellas W",       p:25, img:"assets/gorra-3.png", fotos:["assets/modelo-estrellas.jpg","assets/gorra-6.png","assets/estrellas-1.jpg","assets/estrellas-2.jpg"]},
+  {n:"Cruz Plata",        p:25, img:"assets/gorra-4.png", fotos:["assets/cruz-1.jpg","assets/cruz-2.jpg"]},
+  {n:"Yeison Jiménez",    p:25, img:"assets/gorra-5.png", fotos:["assets/modelo-yeison-1.jpg","assets/modelo-yeison-2.jpg","assets/yeison-1.jpg","assets/yeison-2.jpg","assets/yeison-3.jpg"]}
 ];
+
+// // ESTADO Y ATAJOS // 
 var cart = [];
 var $ = function(id){return document.getElementById(id)};
-function precio(p){return p ? "$" + p + " " + MONEDA : "Precio por confirmar"}
-function wa(texto){window.open("https://wa.me/" + NUMERO + "?text=" + encodeURIComponent(texto), "_blank", "noopener")}
+
+// // FUNCIONES DE PRECIO (DOLARES Y BOLIVARES) // 
+function bs(usd){ return (usd * TASA).toLocaleString("es-VE") + " Bs"; }
+function usd(n){ return "$" + (+n.toFixed(2)) + " " + MONEDA; }
+function descuentoUSD(){ return OFERTA.descuentoBs / TASA; }
+
+// // CALCULO DE TOTALES (SUBTOTAL, OFERTA, DELIVERY) // 
+function calcular(items){
+  var sub = 0;
+  items.forEach(function(i){ sub += GORRAS[i].p; });
+  var combos = Math.floor(items.length / OFERTA.cantidad);
+  var desc = combos * descuentoUSD();
+  return {sub:sub, combos:combos, desc:desc, total:sub - desc, gratis: items.length >= DELIVERY_GRATIS_DESDE};
+}
+function precio(p){ return p ? "$" + p + " " + MONEDA + " · " + bs(p) : "Precio por confirmar"; }
+
+// // FUNCION DE CORREO AUTOMATICO // 
+function correo(asunto, cuerpo){
+  location.href = "mailto:" + CORREO + "?subject=" + encodeURIComponent(asunto) + "&body=" + encodeURIComponent(cuerpo);
+}
+
+// // TEXTO CON DATOS DE PAGO MOVIL // 
+function datosPago(total){
+  return "\n\nDATOS DE PAGO MÓVIL" +
+    "\nBanco: " + PAGO.banco +
+    "\nTeléfono: " + PAGO.tel +
+    "\nCédula: " + PAGO.ced +
+    "\nMonto: " + usd(total) + " = " + bs(total) + " (tasa " + TASA + " Bs por $1)" +
+    "\n\nEnvía el comprobante de pago respondiendo este correo.";
+}
+
+// // DIBUJAR COLECCION Y CONTADOR DEL CARRITO // 
 function render(){
   $("grid").innerHTML = GORRAS.map(function(g,i){
     return '<button class="card" data-i="'+i+'"><div class="ph"><img src="'+g.img+'" alt="Gorra '+g.n+'" loading="lazy"></div><h3>'+g.n+'</h3><p>'+precio(g.p)+'</p></button>';
   }).join("");
   $("n").textContent = cart.length;
+  $("promo").innerHTML = 'Oferta: lleva ' + OFERTA.cantidad + ' gorras y rebajamos ' + OFERTA.descuentoBs.toLocaleString("es-VE") + ' Bs (' + usd(descuentoUSD()) + ')' ;
 }
-function open(html){$("panel").innerHTML = '<button class="x" aria-label="Cerrar" id="close">×</button>' + html; $("sheet").classList.add("on"); $("close").onclick = shut}
-function shut(){$("sheet").classList.remove("on")}
+
+// // ABRIR Y CERRAR VENTANA // 
+function abrir(html){
+  $("panel").innerHTML = '<button class="x" aria-label="Cerrar" id="close">×</button>' + html;
+  $("sheet").classList.add("on");
+  $("close").onclick = cerrar;
+}
+function cerrar(){ $("sheet").classList.remove("on"); }
+
+// // FICHA DE PRODUCTO // 
 function producto(i){
   var g = GORRAS[i], todas = [g.img].concat(g.fotos || []);
   var slides = todas.map(function(f,k){
     var corte = /\.png$/.test(f);
     return '<div class="slide'+(corte?' cut':'')+'"><img src="'+f+'" alt="Gorra '+g.n+' foto '+(k+1)+'"></div>';
   }).join("");
-  open('<div class="gal">'+slides+'</div>'+(todas.length>1?'<p class="hint">Desliza para ver más fotos ('+todas.length+')</p>':'')+'<h3>'+g.n+'</h3><p class="pr">'+precio(g.p)+'</p><button class="btn" id="add">Agregar al carrito</button><button class="btn ghost" id="buy">Pedir por WhatsApp</button>');
-  $("add").onclick = function(){cart.push(i); render(); shut()};
-  $("buy").onclick = function(){wa("Hola, quiero la gorra " + g.n)};
+  abrir('<div class="gal">'+slides+'</div>' +
+    (todas.length>1 ? '<p class="hint">Desliza para ver más fotos ('+todas.length+')</p>' : '') +
+    '<h3>'+g.n+'</h3><p class="pr">'+precio(g.p)+'</p>' +
+    '<button class="btn" id="add">Agregar al carrito</button>' +
+    '<button class="btn ghost" id="buy">Pedir por correo</button>');
+  $("add").onclick = function(){ cart.push(i); render(); cerrar(); };
+  // BOTON: PEDIR ESTA GORRA POR CORREO
+  $("buy").onclick = function(){
+    correo("Pedido MSK Hats: " + g.n,
+      "Hola, quiero la gorra " + g.n + " (" + usd(g.p) + ")." +
+      "\nDelivery: GRATIS" +
+      datosPago(g.p) +
+      "\n\nNombre:\nDirección de envío:\nTeléfono de contacto:");
+  };
 }
+
+// // CARRITO // 
 function carrito(){
-  if(!cart.length){open('<h3>Tu carrito</h3><p class="pr">Está vacío.</p>'); return}
-  var total = 0;
-  var filas = cart.map(function(i,k){total += GORRAS[i].p; return '<div class="row"><span>'+GORRAS[i].n+'</span><button data-k="'+k+'">Quitar</button></div>'}).join("");
-  open('<h3>Tu carrito</h3><p class="pr">'+cart.length+' gorra(s)'+(total?' · $'+total+' '+MONEDA:'')+'</p>'+filas+'<button class="btn" id="order" style="margin-top:18px">Pedir por WhatsApp</button>');
-  $("order").onclick = function(){wa("Hola, quiero pedir:\n" + cart.map(function(i){return "- " + GORRAS[i].n}).join("\n"))};
-  $("panel").querySelectorAll("[data-k]").forEach(function(b){b.onclick = function(){cart.splice(+b.dataset.k,1); render(); carrito()}});
+  if(!cart.length){ abrir('<h3>Tu carrito</h3><p class="pr">Está vacío.</p>'); return; }
+  var t = calcular(cart);
+  var filas = cart.map(function(i,k){
+    return '<div class="row"><span>'+GORRAS[i].n+'</span><button data-k="'+k+'">Quitar</button></div>';
+  }).join("");
+  var resumen = '<div class="row pago">' +
+    'Subtotal: '+usd(t.sub)+' · '+bs(t.sub)+'<br>' +
+    (t.combos ? '<span class="ok">Oferta '+OFERTA.cantidad+' gorras (x'+t.combos+'): -'+usd(t.desc)+' · -'+(t.combos*OFERTA.descuentoBs).toLocaleString("es-VE")+' Bs</span><br>'
+              : 'Agrega '+(OFERTA.cantidad - cart.length % OFERTA.cantidad)+' gorra(s) más y se rebajan '+OFERTA.descuentoBs.toLocaleString("es-VE")+' Bs ('+usd(descuentoUSD())+')<br>') +
+    '<h3 class="sub">Delivery gratis</h3>' +
+    'Total: <b>'+bs(t.total)+'</b> ('+usd(t.total)+')</div>';
+  var pago = '<div class="row pago">' +
+    '<b style="text-transform:uppercase">Pago móvil</b><br>' +
+    'Banco: '+PAGO.banco+'<br>Teléfono: '+PAGO.tel+'<br>Cédula: '+PAGO.ced+'<br>' +
+    'Monto a pagar: <b>'+bs(t.total)+'</b> ('+usd(t.total)+')</div>';
+  abrir('<h3>Tu carrito</h3><p class="pr">'+cart.length+' gorra(s) · '+usd(t.total)+' · '+bs(t.total)+'</p>' +
+    filas + resumen + pago +
+    '<button class="btn" id="order" style="margin-top:18px">Enviar pedido por correo</button>');
+  // BOTON: ENVIAR PEDIDO COMPLETO POR CORREO
+  $("order").onclick = function(){
+    correo("Nuevo pedido MSK Hats",
+      "Hola, quiero pedir:\n" + cart.map(function(i){return "- " + GORRAS[i].n + " (" + usd(GORRAS[i].p) + ")"}).join("\n") +
+      "\n\nSubtotal: " + usd(t.sub) + " = " + bs(t.sub) +
+      (t.combos ? "\nOferta " + OFERTA.cantidad + " gorras (x" + t.combos + "): -" + usd(t.desc) + " = -" + (t.combos*OFERTA.descuentoBs).toLocaleString("es-VE") + " Bs" : "") +
+      "\nDelivery: GRATIS" +
+      "\nTotal: " + usd(t.total) + " = " + bs(t.total) +
+      datosPago(t.total) +
+      "\n\nNombre:\nDirección de envío:\nTeléfono de contacto:");
+  };
+  // BOTON: QUITAR GORRA DEL CARRITO
+  $("panel").querySelectorAll("[data-k]").forEach(function(b){
+    b.onclick = function(){ cart.splice(+b.dataset.k,1); render(); carrito(); };
+  });
 }
-$("grid").addEventListener("click", function(e){var c = e.target.closest(".card"); if(c) producto(+c.dataset.i)});
+
+// // EVENTOS // 
+$("grid").addEventListener("click", function(e){ var c = e.target.closest(".card"); if(c) producto(+c.dataset.i); });
 $("cartOpen").onclick = carrito;
-$("sheet").addEventListener("click", function(e){if(e.target === $("sheet")) shut()});
-document.addEventListener("keydown", function(e){if(e.key === "Escape") shut()});
+$("sheet").addEventListener("click", function(e){ if(e.target === $("sheet")) cerrar(); });
+document.addEventListener("keydown", function(e){ if(e.key === "Escape") cerrar(); });
+
+// // INICIO // 
 render();
 </script>
 </body>
