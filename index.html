@@ -88,6 +88,18 @@ h2,.hero p,.panel h3,.sub{color:#000;-webkit-text-stroke:1.5px var(--neon);paint
 .ghost{background:none;color:#fff;border:2px solid #fff;margin-top:10px}
 .pago{display:block;text-transform:none;line-height:1.6;margin-top:10px}
 
+  /* // ESTILOS BOTON PORTA EL FLOW Y VENTANA DE IA // */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.topbar .x{float:none;padding:0 6px}
+.flow{background:#fff;color:#000;font-weight:900;font-size:15px;text-transform:uppercase;border:2px solid #fff;border-radius:12px;padding:10px 18px;box-shadow:0 0 6px #fff,0 0 16px #fff,0 0 28px rgba(255,255,255,.55)}
+.back{background:none;border:0;color:var(--muted);font-weight:900;padding:6px 0;margin-bottom:6px}
+.flowimg{display:flex;justify-content:center;margin:8px 0}
+.flowimg img{max-height:150px;border-radius:8px}
+.paso{margin:14px 0 6px;font-size:15px}
+.panel input,.panel select{width:100%;background:#111;color:#fff;border:1px solid #444;border-radius:8px;padding:12px;font:inherit;font-size:14px}
+.panel a.btn{margin-top:10px}
+.resultado{width:100%;border-radius:10px;margin-top:12px;display:block}
+  
 /* // ESTILOS PANTALLAS GRANDES // */
 @media(min-width:760px){.grid{grid-template-columns:repeat(3,1fr);gap:24px 18px}.gallery{grid-template-columns:repeat(4,1fr)}section,header,footer{padding-left:5vw;padding-right:5vw}.panel{max-width:460px;margin:0 auto}.vids{max-width:560px}}
 </style>
@@ -168,6 +180,11 @@ var PAGO = {tel:"04241772275", ced:"18094388", banco:"BNC"};
 var OFERTA = {cantidad:2, descuentoBs:2200};
 var DELIVERY_GRATIS_DESDE = 1;
 
+  // // CONFIGURACION DE LA IA (PORTA EL FLOW) // 
+var FRASE_IA = "Porta El Flow";          // texto del botón
+var MODELO_IA = "gemini-3.1-flash-image"; // modelo de Google que genera la imagen
+var PROXY_URL = "";                      // opcional: tu servidor seguro (si lo creas); vacío = el cliente usa su propia clave
+  
 // // LISTA DE GORRAS // 
 // n = nombre, p = precio en dólares, img = foto de portada, fotos = fotos extra (las fotos de modelo van al final como complemento)
 var GORRAS = [
@@ -235,11 +252,18 @@ function producto(i){
     var corte = /\.png$/.test(f);
     return '<div class="slide'+(corte?' cut':'')+'"><img src="'+f+'" alt="Gorra '+g.n+' foto '+(k+1)+'"></div>';
   }).join("");
-  abrir('<div class="gal">'+slides+'</div>' +
+  function abrir(html, arriba){
+  $("panel").innerHTML = '<div class="topbar"><span>' + (arriba || "") + '</span><button class="x" aria-label="Cerrar" id="close">×</button></div>' + html;
+  $("sheet").classList.add("on");
+  $("close").onclick = cerrar;
+}
     (todas.length>1 ? '<p class="hint">Desliza para ver más fotos ('+todas.length+')</p>' : '') +
     '<h3>'+g.n+'</h3><p class="pr">'+precio(g.p)+'</p>' +
     '<button class="btn" id="add">Agregar al carrito</button>' +
-    '<button class="btn ghost" id="buy">Pedir por correo</button>');
+        '<button class="btn ghost" id="buy">Pedir por correo</button>',
+    '<button class="flow" id="flow">' + FRASE_IA + '</button>');
+  // BOTON: PORTA EL FLOW (ARRIBA, SEPARADO DE LOS DEMAS)
+  $("flow").onclick = function(){ flow(i); };
   $("add").onclick = function(){ cart.push(i); render(); cerrar(); };
   // BOTON: PEDIR ESTA GORRA POR CORREO
   $("buy").onclick = function(){
@@ -251,6 +275,107 @@ function producto(i){
   };
 }
 
+  // // GUARDAR PREFERENCIAS EN EL NAVEGADOR // 
+function guardar(k,v){ try{ localStorage.setItem("flow_"+k, v); }catch(e){} }
+function guardado(k){ try{ return localStorage.getItem("flow_"+k); }catch(e){ return null; } }
+
+// // TEXTO QUE SE LE ENVIA A LA IA // 
+function promptIA(g){
+  return "Photo 1 is the customer. Photo 2 is the cap \"" + g.n + "\". Create a realistic photo of the same person from photo 1 wearing exactly the cap from photo 2, brim facing forward. Keep the person's face, skin tone, hair and features identical. Keep the cap's colors, logos and details exact. Front view, waist-up, natural light, sharp, neutral studio background.";
+}
+
+// // LEER Y REDUCIR LA FOTO DEL COMPRADOR // 
+function leerFoto(archivo){
+  return new Promise(function(ok, mal){
+    var img = new Image(), url = URL.createObjectURL(archivo);
+    img.onload = function(){
+      var k = Math.min(1, 1024 / Math.max(img.width, img.height));
+      var c = document.createElement("canvas"); c.width = img.width * k; c.height = img.height * k;
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      ok(c.toDataURL("image/jpeg", .9).split(",")[1]);
+    };
+    img.onerror = function(){ mal(new Error("No se pudo leer la foto")); };
+    img.src = url;
+  });
+}
+
+// // CONVERTIR LA FOTO DE LA GORRA A BASE64 // 
+function urlBase64(u){
+  return fetch(u).then(function(r){ return r.blob(); }).then(function(b){
+    return new Promise(function(ok){ var f = new FileReader(); f.onload = function(){ ok(f.result.split(",")[1]); }; f.readAsDataURL(b); });
+  });
+}
+
+// // GENERAR LA IMAGEN CON GEMINI (DIRECTO EN LA PAGINA) // 
+async function generarGemini(foto, gorra, g, key){
+  var url = PROXY_URL || "https://generativelanguage.googleapis.com/v1beta/models/" + MODELO_IA + ":generateContent";
+  var cab = {"Content-Type":"application/json"};
+  if(!PROXY_URL) cab["x-goog-api-key"] = key;
+  var r = await fetch(url, {method:"POST", headers:cab, body:JSON.stringify({
+    contents:[{parts:[{text:promptIA(g)}, {inline_data:{mime_type:"image/jpeg", data:foto}}, {inline_data:{mime_type:"image/jpeg", data:gorra}}]}],
+    generationConfig:{responseModalities:["TEXT","IMAGE"]}
+  })});
+  var d = await r.json();
+  if(!r.ok) throw new Error((d.error && d.error.message) || ("error " + r.status));
+  var partes = (d.candidates && d.candidates[0] && d.candidates[0].content && d.candidates[0].content.parts) || [];
+  for(var k2 = 0; k2 < partes.length; k2++){
+    var im = partes[k2].inlineData || partes[k2].inline_data;
+    if(im) return "data:" + (im.mimeType || im.mime_type || "image/png") + ";base64," + im.data;
+  }
+  throw new Error("La IA no devolvió una imagen. Prueba con otra foto.");
+}
+
+// // PASAR A LA APP DE LA IA (CHATGPT O GEMINI) CON EL TEXTO LISTO // 
+function pasarAApp(ia, g){
+  var texto = promptIA(g);
+  try{ navigator.clipboard.writeText(texto); }catch(e){}
+  var a = document.createElement("a"); a.href = g.img; a.download = "gorra-" + g.n.replace(/\s+/g, "-") + ".jpg"; a.click();
+  $("fMsg").textContent = "Texto copiado y foto de la gorra descargada. En la IA, adjunta tu foto y la de la gorra y pega el texto.";
+  window.open(ia === "chatgpt" ? "https://chatgpt.com/?q=" + encodeURIComponent(texto) : "https://gemini.google.com/app", "_blank");
+}
+
+// // VENTANA PORTA EL FLOW // 
+function flow(i){
+  var g = GORRAS[i], ia = guardado("ia") || "gemini";
+  abrir('<button class="back" id="back">← Volver</button>' +
+    '<h3>' + FRASE_IA + '</h3><p class="pr">' + g.n + '</p>' +
+    '<div class="flowimg"><img src="' + g.img + '" alt="' + g.n + '"></div>' +
+    '<p class="paso">1. Sube tu foto (de frente y con buena luz)</p><input type="file" accept="image/*" id="fFoto">' +
+    '<p class="paso">2. Elige tu IA</p><select id="fIA">' +
+      '<option value="gemini">Gemini · genera aquí mismo</option>' +
+      '<option value="chatgpt">ChatGPT · se abre con el texto listo</option>' +
+      '<option value="geminiapp">App de Gemini · se abre con el texto listo</option></select>' +
+    '<div id="fKeyBox"><p class="paso">3. Tu clave de Gemini (se guarda solo en tu navegador)</p>' +
+      '<input type="password" id="fKey" placeholder="Pega tu clave" value="' + (guardado("key") || "") + '">' +
+      '<p class="hint"><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="text-decoration:underline">Crear clave en Google AI Studio</a> (la generación de imágenes requiere cuenta con facturación activa)</p></div>' +
+    '<button class="btn" id="fGo" style="margin-top:14px">Generar mi foto</button>' +
+    '<p class="hint" id="fMsg"></p><div id="fOut"></div>' +
+    '<p class="hint">Tu foto se envía a la IA que elijas solo para crear la imagen. La imagen es una simulación.</p>');
+  $("fIA").value = ia;
+  function verClave(){ $("fKeyBox").style.display = ($("fIA").value === "gemini" && !PROXY_URL) ? "block" : "none"; }
+  verClave();
+  $("fIA").onchange = verClave;
+  $("back").onclick = function(){ producto(i); };
+  // BOTON: GENERAR
+  $("fGo").onclick = async function(){
+    var ia2 = $("fIA").value, msg = $("fMsg"), out = $("fOut");
+    guardar("ia", ia2);
+    if(ia2 !== "gemini"){ pasarAApp(ia2 === "chatgpt" ? "chatgpt" : "gemini", g); return; }
+    var archivo = $("fFoto").files[0], key = $("fKey").value.trim();
+    if(!archivo){ msg.textContent = "Primero sube tu foto."; return; }
+    if(!PROXY_URL && !key){ msg.textContent = "Pega tu clave de Gemini."; return; }
+    if(key) guardar("key", key);
+    $("fGo").disabled = true; out.innerHTML = ""; msg.textContent = "Generando… puede tardar hasta un minuto.";
+    try{
+      var url = await generarGemini(await leerFoto(archivo), await urlBase64(g.img), g, key);
+      out.innerHTML = '<img class="resultado" src="' + url + '" alt="Tu foto con la gorra"><a class="btn ghost" download="porta-el-flow.png" href="' + url + '">Descargar</a>';
+      msg.textContent = "¡Listo!";
+    }catch(e){ msg.textContent = "No se pudo generar: " + e.message; }
+    $("fGo").disabled = false;
+  };
+}
+  
 // // CARRITO // 
 function carrito(){
   if(!cart.length){ abrir('<h3>Tu carrito</h3><p class="pr">Está vacío.</p>'); return; }
